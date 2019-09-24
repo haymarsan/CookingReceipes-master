@@ -38,6 +38,8 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
+    implementation 'com.google.firebase:firebase-analytics:17.2.0'
+
     //Firebase
     implementation 'com.google.firebase:firebase-ads:18.1.0'
 
@@ -60,3 +62,5 @@ dependencies {
     //Picasso
     implementation 'com.squareup.picasso:picasso:2.71828'
 }
+
+apply plugin: 'com.google.gms.google-services'

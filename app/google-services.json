@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "769907781555",
+    "firebase_url": "https://my-production-project-5a3e3.firebaseio.com",
+    "project_id": "my-production-project-5a3e3",
+    "storage_bucket": "my-production-project-5a3e3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:769907781555:android:6d351a07bbcfae85fce5c6",
+        "android_client_info": {
+          "package_name": "com.hms.cookingreceipes"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "769907781555-le407me6gf82s5pv5nj8gj5l5aviqiu0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.hms.cookingreceipes",
+            "certificate_hash": "1f611c323a2c976bd483554ad5783022f63679d9"
+          }
+        },
+        {
+          "client_id": "769907781555-kjnh3rfj9qlnbi0bpmr23fr2gdle79je.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD3VDsPTJVmi-dGwW3CEckohZuo0uzWLJc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "769907781555-kjnh3rfj9qlnbi0bpmr23fr2gdle79je.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
