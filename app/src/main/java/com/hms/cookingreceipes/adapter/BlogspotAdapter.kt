@@ -1,10 +1,11 @@
 package com.hms.cookingreceipes.adapter
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.card.MaterialCardView
 import com.hms.cookingreceipes.R
 import com.hms.cookingreceipes.data.model.Entry
 import com.squareup.picasso.Picasso
@@ -30,25 +31,15 @@ class BlogspotAdapter : RecyclerView.Adapter<BlogspotAdapter.BlogspotViewHolder>
 
     override fun getItemCount(): Int = entryList.size
 
+    @SuppressLint("SimpleDateFormat")
     override fun onBindViewHolder(holder: BlogspotViewHolder, position: Int) {
-        /*val split = entryList[position].content.value.trim().split("<br /><br />")
-        var description = ""
-        if (split.size > 3) {
-            if (split[1].equals("")) {
-                description = split[2]
-            } else if (split[1].length < 100) {
-                description = split[1] + " " + split[2]
-            } else {
-                description = split[1]
-            }
-        }*/
 
-        val url = entryList[position].media.url
         holder.itemView.tvBlogTitle.text = entryList[position].title.value
         holder.itemView.tvBlogDate.text =
             SimpleDateFormat("dd MMM, yyyy HH:MM:SS").format(entryList[position].published.value)
-        holder.itemView.tvBlogDescription.text = ""
-        Picasso.get().load(entryList[position].media.url).into(holder.itemView.ivBlogImage)
+        val thumbUrl = entryList[position].media!!.url
+        if (!thumbUrl.isNullOrBlank())
+            Picasso.get().load(thumbUrl).into(holder.itemView.ivBlogImage)
     }
 
     interface OnItemClickListener {
@@ -64,10 +55,10 @@ class BlogspotAdapter : RecyclerView.Adapter<BlogspotAdapter.BlogspotViewHolder>
 
     inner class BlogspotViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         init {
-            itemView.findViewById<MaterialCardView>(R.id.cdMain).setOnClickListener {
+            itemView.findViewById<CardView>(R.id.cdMain).setOnClickListener {
                 val position = adapterPosition
                 if (listener != null && position != RecyclerView.NO_POSITION) {
-                    listener!!.onItemClick(entryList.get(position))
+                    listener!!.onItemClick(entryList[position])
                 }
             }
         }

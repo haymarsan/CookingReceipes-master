@@ -5,17 +5,12 @@ import android.content.Intent
 import android.os.Bundle
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
-import com.bumptech.glide.Glide
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.AdView
-import com.google.android.gms.ads.MobileAds
+import com.facebook.ads.AdSize
+import com.facebook.ads.AdView
 import com.hms.cookingreceipes.R
 import com.hms.cookingreceipes.data.model.Entry
 import kotlinx.android.synthetic.main.activity_web_page.*
-import kotlinx.android.synthetic.main.list_item_blog.*
-import java.text.SimpleDateFormat
 
 class WebPageActivity : AppCompatActivity() {
 
@@ -35,16 +30,6 @@ class WebPageActivity : AppCompatActivity() {
         setContentView(R.layout.activity_web_page)
 
 
-//        //actionbar
-//        val actionbar = supportActionBar
-//        //set actionbar title
-//        actionbar!!.title = "New Activity"
-//        //set back button
-//        actionbar.setDisplayHomeAsUpEnabled(true)
-//        actionbar.setDisplayHomeAsUpEnabled(true)
-
-
-
         val entry = intent.getSerializableExtra("entry") as Entry
 
         val html_text = "<HTML><HEAD>" +
@@ -53,21 +38,25 @@ class WebPageActivity : AppCompatActivity() {
                 "</body></HTML>"
 
         wvWebPage.webViewClient = MyBrowser()
-        wvWebPage.loadDataWithBaseURL("file:///android_asset/", html_text, "text/html", "utf-8", null)
+        wvWebPage.loadDataWithBaseURL(
+            "file:///android_asset/",
+            html_text,
+            "text/html",
+            "utf-8",
+            null
+        )
 
         tvTitle.text = entry.title.value
-        //tvDate.text = SimpleDateFormat("dd MMM, yyyy HH:MM:SS").format(entry.published.value)
 
+        mAdView = AdView(this, resources.getString(R.string.fb_banner), AdSize.BANNER_HEIGHT_50)
+        banner_container1.addView(mAdView)
+        mAdView.loadAd()
 
-        MobileAds.initialize(this, resources.getString(R.string.APP_ID))
-        mAdView = findViewById(R.id.adView)
-        val adRequest = AdRequest.Builder().build()
-        mAdView.loadAd(adRequest)
     }
 
     inner class MyBrowser : WebViewClient() {
         override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
-            view!!.loadUrl(url)
+            view!!.loadUrl(url!!)
             return true
         }
     }

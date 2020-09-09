@@ -7,4 +7,8 @@
     <color name="primary_text">#212121</color>
     <color name="secondary_text">#757575</color>
     <color name="icons">#FFFFFF</color>
+
+    <color name="colorGradientStart">#C2185B</color>
+    <color name="colorGradientCenter">#ffffff</color>
+    <color name="colorGradientEnd">#ffffff</color>
 </resources>

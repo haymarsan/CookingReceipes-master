@@ -24,12 +24,6 @@
                 android:textSize="20sp"
                 android:text="Title"/>
 
-<!--        <TextView-->
-<!--                android:id="@+id/tvDate"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_below="@+id/tvTitle"-->
-<!--                android:text="14 Jul, 2019"/>-->
 
     </RelativeLayout>
 
@@ -51,7 +45,17 @@
             android:layout_centerInParent="true"
             android:layout_centerHorizontal="true"/>
 
-    <com.google.android.gms.ads.AdView
+    <LinearLayout
+            android:id="@+id/banner_container1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_margin="4dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerInParent="true"
+            />
+
+    <!--<com.google.android.gms.ads.AdView
             xmlns:ads="http://schemas.android.com/apk/res-auto"
             android:id="@+id/adView"
             android:layout_width="wrap_content"
@@ -60,5 +64,5 @@
             android:layout_alignParentBottom="true"
             android:layout_centerInParent="true"
             ads:adSize="BANNER"
-            ads:adUnitId="@string/adUnitID2"/>
+            ads:adUnitId="@string/adUnitID2"/>-->
 </RelativeLayout>
