@@ -6,7 +6,6 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import androidx.core.content.ContextCompat
-import com.facebook.ads.AudienceNetworkAds
 
 class CookingApp : Application() {
 
@@ -29,7 +28,7 @@ class CookingApp : Application() {
             return result
         }
 
-        fun getAppVersionNumber(): Int {
+        fun getAppVersionNumber(context: Context): Int {
             var result = 0
             try {
                 result = context.packageManager
@@ -42,9 +41,15 @@ class CookingApp : Application() {
             return result
         }
 
-        fun openMarket(url: String, appPackage: String) {
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=$appPackage"))
-            intent.data = Uri.parse(url)
+        fun openLink(context: Context, directDownloadUrl: String) {
+            val openIntent = Intent(Intent.ACTION_VIEW, Uri.parse(directDownloadUrl))
+            context.startActivity(openIntent)
+        }
+
+        fun openMarket(context: Context, appUrl: String) {
+            val intent =
+                Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=com.peteaung.myhealth"))
+            intent.data = Uri.parse(appUrl)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
             ContextCompat.startActivity(context, intent, null)
         }
@@ -53,7 +58,5 @@ class CookingApp : Application() {
     override fun onCreate() {
         super.onCreate()
         context = applicationContext
-
-        AudienceNetworkAds.initialize(this)
     }
 }

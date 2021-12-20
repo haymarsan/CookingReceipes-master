@@ -1,20 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.hms.cookingreceipes">
+        xmlns:tools="http://schemas.android.com/tools"
+        package="com.hms.cookingreceipes">
 
     <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="com.google.android.gms.permission.AD_ID" />
 
     <application
             android:allowBackup="true"
             android:icon="@mipmap/ic_launcher"
             android:label="@string/app_name"
             android:roundIcon="@mipmap/ic_launcher_round"
+            android:networkSecurityConfig="@xml/network_security_config"
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
-            android:name=".CookingApp"><!--
+            android:name=".CookingApp"
+            tools:targetApi="n">
         <meta-data
-                android:name="com.google.android.gms.ads.APPLICATION_ID"
-                android:value="@string/APP_ID"/>-->
+            android:name="com.google.android.gms.ads.AD_MANAGER_APP"
+            android:value="true" />
+
         <activity android:name=".activities.HomeActivity">
         </activity>
         <activity android:name=".activities.SplashActivity"
@@ -28,6 +34,71 @@
         <activity
                 android:name=".activities.WebPageActivity"
                 android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
+                android:name=".WebPageActivity"
+                android:theme="@style/Theme.AppCompat.DayNight.NoActionBar" /> <!-- Needed for Mintegral & Maio -->
+        <uses-library
+                android:name="org.apache.http.legacy"
+                android:required="false" />
+
+        <activity
+                android:name="com.ironsource.sdk.controller.ControllerActivity"
+                android:configChanges="orientation|screenSize"
+                android:hardwareAccelerated="true" />
+        <activity
+                android:name="com.ironsource.sdk.controller.InterstitialActivity"
+                android:configChanges="orientation|screenSize"
+                android:hardwareAccelerated="true"
+                android:theme="@android:style/Theme.Translucent" />
+        <activity
+                android:name="com.ironsource.sdk.controller.OpenUrlActivity"
+                android:configChanges="orientation|screenSize"
+                android:hardwareAccelerated="true"
+                android:theme="@android:style/Theme.Translucent" />
+
+        <provider
+                android:name="com.ironsource.lifecycle.IronsourceLifecycleProvider"
+                android:authorities="${applicationId}.IronsourceLifecycleProvider" />
+
+        <activity
+                android:name="com.adcolony.sdk.AdColonyInterstitialActivity"
+                android:configChanges="keyboardHidden|orientation|screenSize"
+                android:hardwareAccelerated="true" />
+        <activity
+                android:name="com.adcolony.sdk.AdColonyAdViewActivity"
+                android:configChanges="keyboardHidden|orientation|screenSize"
+                android:hardwareAccelerated="true" />
+        <activity
+                android:name="com.facebook.ads.AudienceNetworkActivity"
+                android:configChanges="keyboardHidden|orientation|screenSize"
+                android:hardwareAccelerated="true" />
+        <activity
+                android:name="com.inmobi.ads.rendering.InMobiAdActivity"
+                android:configChanges="keyboardHidden|orientation|keyboard|smallestScreenSize|screenSize|screenLayout|locale|fontScale|uiMode"
+                android:hardwareAccelerated="true"
+                android:theme="@android:style/Theme.NoTitleBar"
+                tools:ignore="UnusedAttribute" />
+        <activity
+                android:name="com.unity3d.services.ads.adunit.AdUnitActivity"
+                android:configChanges="fontScale|keyboard|keyboardHidden|locale|mnc|mcc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|uiMode|touchscreen"
+                android:hardwareAccelerated="true"
+                android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
+        <activity
+                android:name="com.unity3d.services.ads.adunit.AdUnitTransparentActivity"
+                android:configChanges="fontScale|keyboard|keyboardHidden|locale|mnc|mcc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|uiMode|touchscreen"
+                android:hardwareAccelerated="true"
+                android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" />
+        <activity
+                android:name="com.unity3d.services.ads.adunit.AdUnitTransparentSoftwareActivity"
+                android:configChanges="fontScale|keyboard|keyboardHidden|locale|mnc|mcc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|uiMode|touchscreen"
+                android:hardwareAccelerated="false"
+                android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" />
+        <activity
+                android:name="com.unity3d.services.ads.adunit.AdUnitSoftwareActivity"
+                android:configChanges="fontScale|keyboard|keyboardHidden|locale|mnc|mcc|navigation|orientation|screenLayout|screenSize|smallestScreenSize|uiMode|touchscreen"
+                android:hardwareAccelerated="false"
+                android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
     </application>
 
 </manifest>

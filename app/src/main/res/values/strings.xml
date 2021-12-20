@@ -6,24 +6,12 @@
     <string name="app_package">com.hms.cookingreceipes</string>
     <string name="version">Version : %1$s</string>
 
-    <!--<string name="APP_ID">ca-app-pub-3940256099942544~3347511713</string>
-    <string name="adUnitID1">ca-app-pub-4401178293635594/2722531378</string>
-    <string name="adUnitID2">ca-app-pub-4401178293635594/7408909514</string>
-    <string name="adUnitIdIntersitial1">ca-app-pub-4401178293635594/8138509587</string>-->
     <string name="welcome">ဟင်းချက်နည်းများ Application မှ \n နွေးထွေးစွာကြိုဆိုပါ၏။
 </string>
 
-    //Test ID
-    <!--<string name="app_id">ca-app-pub-3940256099942544~3347511713</string>-->
-    <!--<string name="banner1_id">ca-app-pub-3940256099942544/6300978111</string>-->
-    <!--<string name="interstitialID">ca-app-pub-3940256099942544/1033173712</string>-->
-
-    //Production ID
-    <!--<string name="app_id">ca-app-pub-4401178293635594~1226644549</string>-->
-    <!--<string name="banner1_id">ca-app-pub-4401178293635594/2722531378</string>-->
-    <!--<string name="banner2_id">ca-app-pub-4401178293635594/7408909514</string>-->
-    <!--<string name="interstitialID">ca-app-pub-4401178293635594/8138509587</string>-->
     <string name="fb_banner">1465298143661363_1465299180327926</string>
     <string name="fb_interstitial">1465298143661363_1465299600327884</string>
+
+    <string name="isAppKey">129196fad</string>
 
 </resources>
