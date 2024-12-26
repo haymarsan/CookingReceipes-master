@@ -1,39 +1,17 @@
 package com.hms.cookingreceipes.activities
 
-import android.os.Bundle
+import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.google.firebase.database.*
+import androidx.core.content.ContextCompat
 import com.hms.cookingreceipes.AppUpdateDialogFragment
-import com.hms.cookingreceipes.CookingApp.Companion.getAppVersionNumber
-import com.hms.cookingreceipes.CookingApp.Companion.openLink
-import com.hms.cookingreceipes.CookingApp.Companion.openMarket
 import com.hms.cookingreceipes.R
 import com.hms.cookingreceipes.data.model.AppUpdate
 
 open class BaseActivity : AppCompatActivity() {
-
-    private lateinit var mDatabase: DatabaseReference
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        mDatabase = FirebaseDatabase.getInstance().reference
-        mDatabase.child("app").child("MMRecepies").addValueEventListener(object : ValueEventListener {
-            override fun onCancelled(p0: DatabaseError) {
-
-            }
-
-            override fun onDataChange(snapshot: DataSnapshot) {
-                val appUpdate = snapshot.getValue(AppUpdate::class.java)
-                val currentAppVersion = getAppVersionNumber(this@BaseActivity)
-                if (currentAppVersion < appUpdate!!.versionCode) {
-                    showUpdateDialog(appUpdate)
-                }
-
-            }
-        })
-    }
 
     protected fun showUpdateDialog(
         appUpdate: AppUpdate
@@ -68,5 +46,45 @@ open class BaseActivity : AppCompatActivity() {
 
     fun animateFadeInOut() {
         overridePendingTransition(R.anim.anim_fade_in, R.anim.anim_fade_out)
+    }
+
+    private fun getAppVersionNumber(context: Context): Int {
+        var result = 0
+        try {
+            result = context.packageManager
+                .getPackageInfo(context.packageName, 0)
+                .versionCode
+        } catch (e: PackageManager.NameNotFoundException) {
+            e.printStackTrace()
+        }
+
+        return result
+    }
+
+    protected fun openLink(context: Context, directDownloadUrl: String) {
+        val openIntent = Intent(Intent.ACTION_VIEW, Uri.parse(directDownloadUrl))
+        context.startActivity(openIntent)
+    }
+
+    protected fun openMarket(context: Context, appUrl: String) {
+        val intent =
+            Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=${this.packageName}"))
+        intent.data = Uri.parse(appUrl)
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+        ContextCompat.startActivity(context, intent, null)
+    }
+
+    protected fun getAppVersion(): String {
+        var result = ""
+        try {
+            result = this.packageManager
+                .getPackageInfo(this.packageName, 0)
+                .versionName.toString()
+            result = result.replace("[a-zA-Z]|-".toRegex(), "")
+        } catch (e: PackageManager.NameNotFoundException) {
+            e.printStackTrace()
+        }
+
+        return result
     }
 }

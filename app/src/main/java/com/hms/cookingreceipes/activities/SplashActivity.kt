@@ -1,21 +1,20 @@
 package com.hms.cookingreceipes.activities
 
+import android.annotation.SuppressLint
 import android.graphics.drawable.AnimationDrawable
 import android.os.Bundle
-import android.os.Handler
-import android.util.Log
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.firebase.auth.FirebaseAuth
-import com.hms.cookingreceipes.CookingApp.Companion.getAppVersion
 import com.hms.cookingreceipes.R
 import com.hms.cookingreceipes.databinding.ActivitySplashBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
+@SuppressLint("CustomSplashScreen")
 class SplashActivity : BaseActivity() {
 
-    lateinit var animationDrawable: AnimationDrawable
+    private lateinit var animationDrawable: AnimationDrawable
     private lateinit var binding: ActivitySplashBinding
-
-    private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,27 +26,15 @@ class SplashActivity : BaseActivity() {
         animationDrawable.setEnterFadeDuration(1000)
         animationDrawable.setExitFadeDuration(1000)
 
-        auth = FirebaseAuth.getInstance()
-
-        auth.signInWithEmailAndPassword("admin@myhealth.com", "Admin#12345")
-            .addOnCompleteListener(OnCompleteListener {
-                if (it.isSuccessful) {
-                    Log.i("Auth Status", "Authentication Success")
-                } else {
-                    Log.i("Auth Status", "Authentication Fail")
-                }
-            })
-    }
-
-    override fun onResume() {
-        super.onResume()
         if (!animationDrawable.isRunning) {
             animationDrawable.start()
-            Handler().postDelayed({
-                startActivity(HomeActivity.newInstance(this))
+            CoroutineScope(Dispatchers.Main).launch {
+                delay(2000)
                 finish()
+                startActivity(HomeActivity.newInstance(this@SplashActivity))
                 animateFadeInOut()
-            }, 3000)
+//                    overridePendingTransition(R.anim.anim_fade_in, R.anim.anim_fade_out)
+            }
         }
     }
 
