@@ -7,29 +7,9 @@ import android.net.Uri
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import com.hms.cookingreceipes.AppUpdateDialogFragment
 import com.hms.cookingreceipes.R
-import com.hms.cookingreceipes.data.model.AppUpdate
 
 open class BaseActivity : AppCompatActivity() {
-
-    protected fun showUpdateDialog(
-        appUpdate: AppUpdate
-    ) {
-        val updateDialog = AppUpdateDialogFragment.newInstance(
-            appUpdate
-        )
-        updateDialog.show(supportFragmentManager, AppUpdateDialogFragment::class.java.name)
-        updateDialog.setListener(object : AppUpdateDialogFragment.ActionListener {
-            override fun onPlayStoreClicked() {
-                openMarket(this@BaseActivity, appUpdate.playStore)
-            }
-
-            override fun onDirectDownloadClicked() {
-                openLink(this@BaseActivity, appUpdate.directDownload!!)
-            }
-        })
-    }
 
     fun showToast(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
