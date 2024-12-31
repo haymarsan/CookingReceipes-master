@@ -15,10 +15,6 @@ open class BaseActivity : AppCompatActivity() {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-    }
-
     override fun onBackPressed() {
         super.onBackPressed()
         animateFadeInOut()
