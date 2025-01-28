@@ -6,23 +6,27 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.OnScrollListener
 import com.hms.cookingreceipes.R
 import com.hms.cookingreceipes.adapter.BlogspotAdapter
 import com.hms.cookingreceipes.data.model.Entry
 import com.hms.cookingreceipes.databinding.ActivityHomeBinding
-import com.hms.cookingreceipes.utils.AppUtils
-import com.hms.cookingreceipes.utils.NetworkResult
 import com.hms.cookingreceipes.viewmodel.CookingAppViewModel
+import com.hms.cookingreceipes.viewmodel.HomeUiState
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class HomeActivity : BaseActivity() {
     private val mAppViewModel: CookingAppViewModel by viewModels<CookingAppViewModel>()
     private lateinit var blogspotAdapter: BlogspotAdapter
     private lateinit var binding: ActivityHomeBinding
+    private val limit = 3
 
     companion object {
         fun newInstance(context: Context): Intent {
@@ -39,38 +43,41 @@ class HomeActivity : BaseActivity() {
         binding.contentHome.recyclerMain.recycledViewPool.setMaxRecycledViews(0, 0)
         binding.contentHome.recyclerMain.adapter = blogspotAdapter
 
-        mAppViewModel.blogspot.observe(this) {
-            when (it) {
-                is NetworkResult.Loading -> {
-                    binding.mainProgress.visibility = View.VISIBLE
-                }
+        lifecycleScope.launch {
+            mAppViewModel.homeUiState.collectLatest {
+                when (it) {
+                    is HomeUiState.Loading -> {
+                        binding.mainProgress.visibility = View.VISIBLE
+                    }
 
-                is NetworkResult.Success -> {
-                    binding.mainProgress.visibility = View.GONE
-                    it.data?.let {
-                        blogspotAdapter.entryList += it.feed.entry
+                    is HomeUiState.Success -> {
                         binding.mainProgress.visibility = View.GONE
+                        blogspotAdapter.entryList = it.feeds
+                    }
+
+                    is HomeUiState.Error -> {
+                        binding.mainProgress.visibility = View.GONE
+                        showToast(it.message)
                     }
                 }
 
-                is NetworkResult.Error -> {
-                    binding.mainProgress.visibility = View.GONE
-                    showToast(it.message ?: "Error in loading error")
-                }
             }
         }
 
-        if (AppUtils().hasConnection(this)) {
-            binding.mainProgress.visibility = View.VISIBLE
-            val params = HashMap<String, String>()
-            params["alt"] = "json"
-//            params["start-index"] = "1"
-//            params["max-results"] = "5"
+        mAppViewModel.loadMoreItems(limit)
+        binding.contentHome.recyclerMain.addOnScrollListener(object : OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                val layoutManager = recyclerView.layoutManager as LinearLayoutManager
+                val visibleItemCount = layoutManager.childCount
+                val totalItemCount = layoutManager.itemCount
+                val firstVisibleItemPosition = layoutManager.findFirstVisibleItemPosition()
 
-            mAppViewModel.getBlogArticles(params)
-        } else {
-            Toast.makeText(this, "No internet connection", Toast.LENGTH_LONG).show()
-        }
+                if (firstVisibleItemPosition + visibleItemCount >= totalItemCount)
+                    mAppViewModel.loadMoreItems(limit)
+            }
+        })
+
         blogspotAdapter.setOnItemClickListener(object : BlogspotAdapter.OnItemClickListener {
             override fun onItemClick(entry: Entry) {
                 startActivity(WebPageActivity.newInstance(this@HomeActivity, entry))

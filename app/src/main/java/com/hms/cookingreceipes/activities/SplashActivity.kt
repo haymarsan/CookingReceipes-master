@@ -3,10 +3,9 @@ package com.hms.cookingreceipes.activities
 import android.annotation.SuppressLint
 import android.graphics.drawable.AnimationDrawable
 import android.os.Bundle
+import androidx.lifecycle.lifecycleScope
 import com.hms.cookingreceipes.R
 import com.hms.cookingreceipes.databinding.ActivitySplashBinding
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -28,12 +27,11 @@ class SplashActivity : BaseActivity() {
 
         if (!animationDrawable.isRunning) {
             animationDrawable.start()
-            CoroutineScope(Dispatchers.Main).launch {
+            lifecycleScope.launch {
                 delay(2000)
                 finish()
                 startActivity(HomeActivity.newInstance(this@SplashActivity))
-                animateFadeInOut()
-//                    overridePendingTransition(R.anim.anim_fade_in, R.anim.anim_fade_out)
+                overridePendingTransition(R.anim.anim_fade_in, R.anim.anim_fade_out)
             }
         }
     }
