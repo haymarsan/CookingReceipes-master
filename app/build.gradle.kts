@@ -13,7 +13,7 @@ android {
     defaultConfig {
         applicationId = "com.hms.cookingreceipes"
         minSdk = 23
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 7
         versionName = "1.0.5"
 
